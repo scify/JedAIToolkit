@@ -2,7 +2,7 @@
 <img src="https://github.com/scify/JedAIToolkit/blob/master/documentation/JedAI_logo_small.png">
 </p>
 
-Please check [pyJedAI](https://github.com/AI-team-UoA/pyJedAI) for an implementation of JedAI in native Python.
+**Please check [pyJedAI](https://github.com/AI-team-UoA/pyJedAI) for an implementation of JedAI in native Python.**
 
 Please check our [paper](https://github.com/scify/JedAIToolkit/blob/master/documentation/JedAI_3D_ER.pdf) for a detailed description of version 3.0. 
 
