@@ -27,7 +27,9 @@ public enum EntityClusteringCcerMethod {
     ROW_COLUMN_ASSIGNMENT_CLUSTERING_ONLY_EDGES,
     ROW_COLUMN_ASSIGNMENT_CLUSTERING_ONLY_EDGES_EFFICIENT,
     BEST_ASSIGNMENT_HEURISTIC_CLUSTERING,
+    BEST_ASSIGNMENT_HEURISTIC_CLUSTERING_EFFICIENT,
     BAH_AFTER_UM,
+    BAH_AFTER_UM_EFFICIENT,
     CONNECTED_COMPONENTS_CCER,
     BEST_MATCH_CLUSTERING,
     SYMMETRIC_BEST_MATCH_CLUSTERING,
@@ -46,8 +48,12 @@ public enum EntityClusteringCcerMethod {
                 return new EfficientRowColumnClusteringOnlyEdges();
             case BEST_ASSIGNMENT_HEURISTIC_CLUSTERING:
                 return new BestAssignmentHeuristic();
+            case BEST_ASSIGNMENT_HEURISTIC_CLUSTERING_EFFICIENT:
+                return new EfficientBestAssignmentHeuristic();
             case BAH_AFTER_UM:
                 return new BAHafterUM();
+            case BAH_AFTER_UM_EFFICIENT:
+                return new EfficientBAHafterUM();
             case CONNECTED_COMPONENTS_CCER:
                 return new ConnectedComponentsClusteringCCER();
             case BEST_MATCH_CLUSTERING:
