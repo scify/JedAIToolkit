@@ -16,6 +16,7 @@
 package org.scify.jedai.generalexamples;
 
 import java.io.File;
+import java.util.HashSet;
 import org.apache.log4j.BasicConfigurator;
 import org.scify.jedai.datamodel.Attribute;
 import org.scify.jedai.datamodel.EntityProfile;
@@ -34,29 +35,39 @@ import org.scify.jedai.datamodel.IdDuplicates;
  */
 public class PrintDatasets {
 
-    private static void printDataset(String filePath) {
+    private static List<EntityProfile> printDataset(String filePath) {
         final IEntityReader eReader = new EntitySerializationReader(filePath);
         List<EntityProfile> profiles = eReader.getEntityProfiles();
         System.out.println("\n\n\n\n\nDataset\t:\t" + filePath);
         System.out.println("Number of Entity Profiles\t:\t" + profiles.size());
 
+        Set<String> attributes = new HashSet<>();
+        for (EntityProfile profile : profiles) {
+            for (Attribute attribute : profile.getAttributes()) {
+                attributes.add(attribute.getName());
+            }
+        }
+        System.out.println("Distinct attributes\t:\t" + attributes);
+        
         for (EntityProfile profile : profiles) {
             System.out.println("\nProfile id\t:\t" + profile.getEntityUrl());
             for (Attribute attribute : profile.getAttributes()) {
                 System.out.println(attribute.getName() + " : " + attribute.getValue());
             }
         }
+        
+        return profiles;
     }
 
-    private static void printGroundtruth(String filePath) {
+    private static void printGroundtruth(List<EntityProfile> profilesD1, List<EntityProfile> profilesD2, String filePath) {
         IGroundTruthReader gtReader = new GtSerializationReader(filePath);
         Set<IdDuplicates> duplicates = gtReader.getDuplicatePairs(null);
         System.out.println("\n\n\n\n\nDataset groundtruth\t:\t" + filePath);
         for (IdDuplicates pair : duplicates) {
-            System.out.println(pair.getEntityId1() + " = " + pair.getEntityId2());
+            System.out.println("\nPair " + profilesD1.get(pair.getEntityId1()).getEntityUrl() + "\t" + profilesD2.get(pair.getEntityId2()).getEntityUrl());
         }
     }
-
+    
     public static void main(String[] args) {
         BasicConfigurator.configure();
 
@@ -81,10 +92,9 @@ public class PrintDatasets {
         for (int i = 0; i < groundTruthFilePath.length; i++) {
             System.out.println("\n\nCurrent dataset\t:\t" + groundTruthFilePath[i]);
 
-            printDataset(entitiesFilePath[i * 2]);
-            printDataset(entitiesFilePath[i * 2 + 1]);
-            printGroundtruth(groundTruthFilePath[i]);
+            List<EntityProfile> profiles1 = printDataset(entitiesFilePath[i * 2]);
+            List<EntityProfile> profiles2 = printDataset(entitiesFilePath[i * 2 + 1]);
+            printGroundtruth(profiles1, profiles2, groundTruthFilePath[i]);
         }
     }
-
 }
